@@ -1,0 +1,15 @@
+.data{
+    height: 50px;
+    width:50px;
+    border-left: red 2px solid;
+   
+}
+
+.table{
+    border-collapse: separate;
+  border-spacing: 1px;
+}
+
+.leftBorder{
+    border-left: black 1px solid;
+}

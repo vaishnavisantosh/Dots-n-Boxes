@@ -3,6 +3,9 @@ import './Dot.css';
 const Dot = (props) => {
     const dots = Array(9).fill(null);
 
+
+    
+
     const displayDot = (index) => {
         return (
             <span className="dot"></span>
