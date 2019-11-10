@@ -16,8 +16,8 @@ const Test=(props)=>  {
    const [boxfill,setBoxFill]=useState(true);
    let player=playerTurn?'Player1':'player2';
 
-   const  checkBoxCreated=()=>{
-     if (box.l==="visited" && box.r==="visited"&&box.t==="visited"&&box.b==="visited"){
+   const  checkBoxCreated=(resultData)=>{
+     if (resultData.l==="visited" && resultData.r==="visited"&& resultData.t==="visited"&& resultData.b==="visited"){
      // setBoxCreated(true);
       //setBoxFill(false);
       console.log("created")
@@ -28,13 +28,19 @@ const Test=(props)=>  {
 
 
    const  handleClick=(e,index)=>{
-     clicked(e,index);
-     checkBoxCreated();
+    let resultData;
+    let boxcrated;
+    resultData= clicked(e,index);
+    boxcrated= checkBoxCreated(resultData);
+    if(boxcrated){
+      setplayerTurn(playerTurn);
+    }
+    
    }
 
    const clicked = (e,index) => {
     
-    
+    let result={...box};
   
 
       if (e.nativeEvent.offsetX < 2) {
@@ -43,13 +49,16 @@ const Test=(props)=>  {
         console.log('left')
         console.log(e.nativeEvent.offsetX);
         setBox({...box,l:'visited',index:index});
-      
+        setplayerTurn(!playerTurn);
+
+      result={...box,l:'visited',index:index}
       }else if (e.nativeEvent.offsetY<2){
         console.log('top')
         let x=document.getElementsByClassName("data");
        x[index].style.borderTop = "thick solid #0000FF"
        setBox({...box,t:'visited',index:index});
        setplayerTurn(!playerTurn);
+       result={...box,t:'visited',index:index}
 
       }
       else if (e.nativeEvent.offsetX>50) {
@@ -59,6 +68,7 @@ const Test=(props)=>  {
        x[index].style.borderRight = "thick solid #0000FF"
        setBox({...box,r:'visited',index:index});
        setplayerTurn(!playerTurn);
+       result={...box,r:'visited',index:index}
 
       } else if (e.nativeEvent.offsetY>50) {
         console.log('bottom')
@@ -67,23 +77,18 @@ const Test=(props)=>  {
        x[index].style.borderBottom = "thick solid #0000FF"
        setBox({...box,b:'visited',index:index});
        setplayerTurn(!playerTurn);
+       result={...box,b:'visited',index:index}
 
       }
       
-      
+      return(result)
     
       
     }
     
 
-    // const boxCreatedMsg=()=>{
-    //  let temp= checkBoxCreated();
-    //   let boxCreatedMsgg;
-    //  if(temp){
-    //   boxCreatedMsgg="creacted box"
-    //  }
-    // }
-    console.log("boxxxxxx",box);
+   
+   // console.log("boxxxxxx",box);
 
 const displayTd=(index)=>{
   return (

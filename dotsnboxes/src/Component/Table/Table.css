@@ -1,10 +1,10 @@
 .data{
     height: 50px;
     width:50px;
-    border-left: red 2px solid;
-    border-right: red 2px solid;
-    border-top:red 2px solid;
-    border-bottom: red 2px solid;
+    border-left: red 5px solid;
+    border-right: red 5px solid;
+    border-top:red 5px solid;
+    border-bottom: red 5px solid;
 }
 
 .table{
