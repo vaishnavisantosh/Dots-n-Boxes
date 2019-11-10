@@ -1,10 +1,11 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import './Table.css'
 import Td from '../TableData/Td';
 
 const Test=(props)=>  {
 
    const [playerTurn,setplayerTurn]=useState(true);
+   const [boxcreated,setBoxCreated]=useState(false);
    const [box,setBox]=useState({
      index:null,
      l:'',
@@ -12,12 +13,29 @@ const Test=(props)=>  {
      t:'',
      b:''
    })
-   const [checkPlayer,setCheckPlayer]=useState(true);
+   const [boxfill,setBoxFill]=useState(true);
    let player=playerTurn?'Player1':'player2';
 
+   const  checkBoxCreated=()=>{
+     if (box.l==="visited" && box.r==="visited"&&box.t==="visited"&&box.b==="visited"){
+     // setBoxCreated(true);
+      //setBoxFill(false);
+      console.log("created")
+      return true;
+     }
+     return  false;
+   }
+
+
+   const  handleClick=(e,index)=>{
+     clicked(e,index);
+     checkBoxCreated();
+   }
+
    const clicked = (e,index) => {
-
-
+    
+    
+  
 
       if (e.nativeEvent.offsetX < 2) {
        let x=document.getElementsByClassName("data");
@@ -25,7 +43,7 @@ const Test=(props)=>  {
         console.log('left')
         console.log(e.nativeEvent.offsetX);
         setBox({...box,l:'visited',index:index});
-        setplayerTurn(!playerTurn);
+      
       }else if (e.nativeEvent.offsetY<2){
         console.log('top')
         let x=document.getElementsByClassName("data");
@@ -53,16 +71,23 @@ const Test=(props)=>  {
       }
       
       
-      // if(checkPlayer===playerTurn){
-      // setplayerTurn(!playerTurn);
+    
       
-      // }
-      console.log("boxxxxxx",box);
     }
+    
+
+    // const boxCreatedMsg=()=>{
+    //  let temp= checkBoxCreated();
+    //   let boxCreatedMsgg;
+    //  if(temp){
+    //   boxCreatedMsgg="creacted box"
+    //  }
+    // }
+    console.log("boxxxxxx",box);
 
 const displayTd=(index)=>{
   return (
-    <Td  onClick={(e) => clicked(e,index)} />
+    <Td  onClick={(e) => handleClick(e,index)} />
 );
 }
 
@@ -70,7 +95,9 @@ const displayTd=(index)=>{
       
       return (
         <>
+
       Its time of {player}
+     
         <table className="table">
             <tbody>
        
