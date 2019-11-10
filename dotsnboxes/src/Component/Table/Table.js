@@ -1,51 +1,66 @@
 import React,{Component} from 'react';
 import './Table.css'
-const Test=()=>  {
+import Td from '../TableData/Td';
 
-    let index=0;
+const Test=(props)=>  {
 
-   const clicked = (e) => {
+   
+
+   const clicked = (e,index) => {
       if (e.nativeEvent.offsetX < 2) {
        let x=document.getElementsByClassName("data");
-       x[0].style.borderLeft = "thick solid #0000FF"
+       x[index].style.borderLeft = "thick solid #0000FF"
         console.log('left')
         console.log(e.nativeEvent.offsetX);
       }else if (e.nativeEvent.offsetY<2){
         console.log('top')
         let x=document.getElementsByClassName("data");
-       x[0].style.borderTop = "thick solid #0000FF"
+       x[index].style.borderTop = "thick solid #0000FF"
       }
       else if (e.nativeEvent.offsetX>50) {
         console.log('right')
         console.log(e.nativeEvent.offsetX)
         let x=document.getElementsByClassName("data");
-       x[0].style.borderRight = "thick solid #0000FF"
+       x[index].style.borderRight = "thick solid #0000FF"
       } else if (e.nativeEvent.offsetY>50) {
         console.log('bottom')
         console.log(e.nativeEvent.offsetY)
         let x=document.getElementsByClassName("data");
-       x[0].style.borderBottom = "thick solid #0000FF"
+       x[index].style.borderBottom = "thick solid #0000FF"
       }
     }
+
+const displayTd=(index)=>{
+  return (
+    <Td  onClick={(e) => clicked(e,index)} />
+);
+}
+
     
-      var Rowlist = [];
-      for (var i = 1; i <= 4; i++) {
-          Rowlist.push(i);
-      }
+      
       return (
         <table className="table">
             <tbody>
-        {Rowlist.map(r => (
-         <tr color="red">
-           {[1,2,3,4].map(c => {
-            index=index+1
-                return   <td className="data" onClick={(e)=>clicked(e,index)} index={index} > hi </td>
-                
-           }
-           )}
-           </tr>
-         ))
-        }
+       
+         <tr>
+           {displayTd(0)}
+           {displayTd(1)}
+           {displayTd(2)}
+           
+         </tr>
+         <tr>
+           {displayTd(3)}
+           {displayTd(4)}
+           {displayTd(5)}
+          
+         </tr>
+         <tr>
+           {displayTd(6)}
+           {displayTd(7)}
+           {displayTd(8)}
+          
+         </tr>
+        
         </tbody>
               </table>
       );

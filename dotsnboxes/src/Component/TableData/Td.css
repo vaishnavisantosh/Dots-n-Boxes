@@ -5,13 +5,5 @@
     border-right: red 2px solid;
     border-top:red 2px solid;
     border-bottom: red 2px solid;
-}
-
-.table{
-    border-collapse: separate;
-  border-spacing: 1px;
-}
-
-.leftBorder{
-    border-left: black 1px solid;
+   
 }
