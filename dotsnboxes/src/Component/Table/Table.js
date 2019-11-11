@@ -113,16 +113,29 @@ const Test = (props) => {
 
     if (e.nativeEvent.offsetX < 2) {
       let x = document.getElementsByClassName("data");
-      x[index].style.borderLeft = "thick solid #0000FF"
       console.log('left')
       console.log(e.nativeEvent.offsetX);
+      //let adjacentLeft;
+        //adjacentLeft=index-1;
       if (box[index].l != "visited") {
-        setplayerTurn(!playerTurn);
-        result[index].l="visited";
-        result[index].index=index;
-        setBox(result);
+       // if(adjacentLeft>=index){
+          x[index].style.borderLeft = "thick solid #0000FF"
+         // x[adjacentLeft].style.borderRight = "thick solid #0000FF"
 
-        result = [...box]
+          setplayerTurn(!playerTurn);
+          result[index].l="visited";
+          result[index].index=index;
+          //result[adjacentLeft].index=index;
+          //result[adjacentLeft].r="visited"
+          setBox(result);
+  
+          result = [...box]
+
+        //}
+
+        
+
+       
       }
       else {
         alert("already visited please choose another line")
@@ -132,16 +145,37 @@ const Test = (props) => {
     } else if (e.nativeEvent.offsetY < 2) {
       console.log('top')
       let x = document.getElementsByClassName("data");
-      x[index].style.borderTop = "thick solid #0000FF"
+      let adjacentBottom;
+      adjacentBottom=index-3;
+     
+
       if (box[index].t != "visited") {
+        if(adjacentBottom>=0){
+        x[index].style.borderTop = "thick solid #0000FF";
+        x[adjacentBottom].style.borderBottom="thick solid #0000FF";
+
         result[index].t="visited";
         result[index].index=index;
+        result[adjacentBottom].b="visited";
+        result[adjacentBottom].index=adjacentBottom;
         setBox(result);
 
        // setBox({ ...box, t: 'visited', index: index });
         setplayerTurn(!playerTurn);
         result = [ ...box]
       }
+      else{
+        x[index].style.borderTop = "thick solid #0000FF";
+        result[index].t="visited";
+        result[index].index=index;
+        setBox(result);
+        setplayerTurn(!playerTurn);
+        result = [ ...box]
+
+
+
+      }
+    }
       else {
         alert("already visited please choose another line")
         setplayerTurn(playerTurn);
@@ -152,7 +186,7 @@ const Test = (props) => {
       console.log(e.nativeEvent.offsetX)
       let x = document.getElementsByClassName("data");
       x[index].style.borderRight = "thick solid #0000FF"
-      if (box.r != "visited") {
+      if (box[index].r != "visited") {
         result[index].r="visited";
         result[index].index=index;
         setBox(result);
@@ -166,18 +200,38 @@ const Test = (props) => {
       }
 
     } else if (e.nativeEvent.offsetY > 50) {
-      console.log('bottom')
-      console.log(e.nativeEvent.offsetY)
+      //console.log('bottom')
+      //console.log(e.nativeEvent.offsetY)
       let x = document.getElementsByClassName("data");
       x[index].style.borderBottom = "thick solid #0000FF"
-      if (box.b != "visited") {
+      let adjacentTop;
+      adjacentTop=index+3;
+
+      
+      if(box[index].b != "visited") {
+        if(adjacentTop<=8){
+
+        x[index].style.borderBottom = "thick solid #0000FF"
+        x[adjacentTop].style.borderTop="thick solid #0000FF"
+
         result[index].b="visited";
         result[index].index=index;
+        result[adjacentTop].t="visited";
+        result[adjacentTop].index=adjacentTop;
         setBox(result);
         //setBox({ ...box, b: 'visited', index: index });
         setplayerTurn(!playerTurn);
         result = [...box]
       }
+      else{
+        x[index].style.borderBottom="thick solid #0000FF";
+        result[index].b="visited";
+        result[index].index=index;
+        setBox(result);
+        setplayerTurn(!playerTurn);
+        result=[...box];
+      }
+    }
       else {
         alert("already visited please choose another line")
         setplayerTurn(playerTurn);
