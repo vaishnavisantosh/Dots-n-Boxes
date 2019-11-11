@@ -4,8 +4,9 @@ import Td from '../TableData/Td';
 
 const Test = (props) => {
 
-  const [playerTurn, setplayerTurn] = useState(true);
- // const [boxcreated, setBoxCreated] = useState(false);
+  const [playerTurn, setplayerTurn] = useState(true);//handles next player turn
+  const [square, setSquare] = useState(Array(9).fill(null));//stores player information after creating box
+
   const [box, setBox] = useState([
     {
       index: null,
@@ -72,13 +73,21 @@ const Test = (props) => {
     }]
 
   )
- // const [boxfill, setBoxFill] = useState(true);
   let player = playerTurn ? 'Player1' : 'player2';
 
-  const checkBoxCreated = (resultData) => {
-    if (resultData.l === "visited" && resultData.r === "visited" && resultData.t === "visited" && resultData.b === "visited") {
+  // const calculateWinner=(square)=>{
+  //   let player1,winner;
+  //     player1arr=square.filter(value=>value=="player1");
+  //     winner=square.length-player1arr.
+  // }
+
+  const checkBoxCreated = (resultData,index) => {
+    if (resultData[index].l === "visited" && resultData[index].r === "visited" && resultData[index].t === "visited" && resultData[index].b === "visited") {
       // setBoxCreated(true);
       //setBoxFill(false);
+      let squares=[...square];
+      squares[index]=player;
+      setSquare(squares);
       console.log("created")
       return true;
     }
@@ -90,7 +99,7 @@ const Test = (props) => {
     let resultData;
     let boxcrated;
     resultData = clicked(e, index);
-    boxcrated = checkBoxCreated(resultData);
+    boxcrated = checkBoxCreated(resultData,index);
     if (boxcrated) {
       setplayerTurn(playerTurn);
     }
@@ -99,7 +108,7 @@ const Test = (props) => {
 
   const clicked = (e, index) => {
 
-    let result = { ...box };
+    let result = [ ...box];
 
 
     if (e.nativeEvent.offsetX < 2) {
@@ -113,7 +122,7 @@ const Test = (props) => {
         result[index].index=index;
         setBox(result);
 
-        result = { ...box}
+        result = [...box]
       }
       else {
         alert("already visited please choose another line")
@@ -131,7 +140,7 @@ const Test = (props) => {
 
        // setBox({ ...box, t: 'visited', index: index });
         setplayerTurn(!playerTurn);
-        result = { ...box}
+        result = [ ...box]
       }
       else {
         alert("already visited please choose another line")
@@ -149,7 +158,7 @@ const Test = (props) => {
         setBox(result);
       //  setBox({ ...box, r: 'visited', index: index });
         setplayerTurn(!playerTurn);
-        result = { ...box}
+        result = [ ...box]
       }
       else {
         alert("already visited please choose another line")
@@ -167,7 +176,7 @@ const Test = (props) => {
         setBox(result);
         //setBox({ ...box, b: 'visited', index: index });
         setplayerTurn(!playerTurn);
-        result = { ...box}
+        result = [...box]
       }
       else {
         alert("already visited please choose another line")
@@ -186,7 +195,7 @@ const Test = (props) => {
 
   const displayTd = (index) => {
     return (
-      <Td value={player} onClick={(e) => handleClick(e, index)} />
+      <Td value={square[index]} onClick={(e) => handleClick(e, index)} />
     );
   }
 
