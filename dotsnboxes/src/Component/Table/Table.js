@@ -6,7 +6,7 @@ const Test = (props) => {
 
   const [playerTurn, setplayerTurn] = useState(true);//handles next player turn
   const [square, setSquare] = useState(Array(9).fill(null));//stores player information after creating box
-
+  const temp = 4;//for 4X4 game
   const [box, setBox] = useState([
     {
       index: null,
@@ -75,18 +75,28 @@ const Test = (props) => {
   )
   let player = playerTurn ? 'Player1' : 'player2';
 
-  // const calculateWinner=(square)=>{
-  //   let player1,winner;
-  //     player1arr=square.filter(value=>value=="player1");
-  //     winner=square.length-player1arr.
-  // }
+  const calculateWinner=(square)=>{
+    let player1arr,winner,player1Count,player2Count;
+      player1arr=square.filter(value=>value=="player1");
+      player1Count=player1arr.length;
+      player2Count=square.length-player1Count;
 
-  const checkBoxCreated = (resultData,index) => {
+      if(player1Count>player2Count){
+        return "player1";
+      }
+      else{
+        return "player2";
+      }
+      
+      
+  }
+
+  const checkBoxCreated = (resultData, index) => {
     if (resultData[index].l === "visited" && resultData[index].r === "visited" && resultData[index].t === "visited" && resultData[index].b === "visited") {
       // setBoxCreated(true);
       //setBoxFill(false);
-      let squares=[...square];
-      squares[index]=player;
+      let squares = [...square];
+      squares[index] = player;
       setSquare(squares);
       console.log("created")
       return true;
@@ -95,143 +105,181 @@ const Test = (props) => {
   }
 
 
-  const handleClick = (e, index) => {
+  const handleClick = (e, index,square) => {
     let resultData;
     let boxcrated;
+    let winner;
+    
+    if(!(square.includes(null))){
+    winner=calculateWinner(square);
+  alert(`winner is ${winner}`);
+    }
+    else{
     resultData = clicked(e, index);
-    boxcrated = checkBoxCreated(resultData,index);
+    boxcrated = checkBoxCreated(resultData, index);
     if (boxcrated) {
       setplayerTurn(playerTurn);
     }
 
   }
+}
 
   const clicked = (e, index) => {
 
-    let result = [ ...box];
+    let result = [...box];
 
 
     if (e.nativeEvent.offsetX < 2) {
       let x = document.getElementsByClassName("data");
       console.log('left')
       console.log(e.nativeEvent.offsetX);
-      //let adjacentLeft;
-        //adjacentLeft=index-1;
+      let adjacentRight;
+      adjacentRight = index - 1;
+
       if (box[index].l != "visited") {
-       // if(adjacentLeft>=index){
-          x[index].style.borderLeft = "thick solid #0000FF"
-         // x[adjacentLeft].style.borderRight = "thick solid #0000FF"
+        if (adjacentRight > 0 || adjacentRight < 3 || adjacentRight < 6) {
 
-          setplayerTurn(!playerTurn);
-          result[index].l="visited";
-          result[index].index=index;
-          //result[adjacentLeft].index=index;
-          //result[adjacentLeft].r="visited"
-          setBox(result);
-  
-          result = [...box]
+          if (index == 0 || index == 3 || index == 6) {
+            x[index].style.borderLeft = "thick solid #0000FF";
+            result[index].l = "visited";
+            result[index].index = index;
+            setBox(result);
+            setplayerTurn(!playerTurn);
+            result = [...box]
 
-        //}
+          }
+          else {
 
-        
+            x[index].style.borderLeft = "thick solid #0000FF";
+            x[adjacentRight].style.borderRight = "thick solid #0000FF";
 
-       
+            result[index].l = "visited";
+            result[index].index = index;
+            result[adjacentRight].r = "visited";
+            result[adjacentRight].index = adjacentRight;
+            setBox(result);
+            setplayerTurn(!playerTurn);
+            result = [...box]
+          }
+        }
+
       }
       else {
         alert("already visited please choose another line")
         setplayerTurn(playerTurn);
       }
+    }
 
-    } else if (e.nativeEvent.offsetY < 2) {
+    else if (e.nativeEvent.offsetY < 2) {
       console.log('top')
       let x = document.getElementsByClassName("data");
       let adjacentBottom;
-      adjacentBottom=index-3;
-     
+      adjacentBottom = index - 3;
+
 
       if (box[index].t != "visited") {
-        if(adjacentBottom>=0){
-        x[index].style.borderTop = "thick solid #0000FF";
-        x[adjacentBottom].style.borderBottom="thick solid #0000FF";
+        if (adjacentBottom >= 0) {
+          x[index].style.borderTop = "thick solid #0000FF";
+          x[adjacentBottom].style.borderBottom = "thick solid #0000FF";
 
-        result[index].t="visited";
-        result[index].index=index;
-        result[adjacentBottom].b="visited";
-        result[adjacentBottom].index=adjacentBottom;
-        setBox(result);
+          result[index].t = "visited";
+          result[index].index = index;
+          result[adjacentBottom].b = "visited";
+          result[adjacentBottom].index = adjacentBottom;
+          setBox(result);
+          setplayerTurn(!playerTurn);
+          result = [...box]
+        }
+        else {
+          x[index].style.borderTop = "thick solid #0000FF";
+          result[index].t = "visited";
+          result[index].index = index;
+          setBox(result);
+          setplayerTurn(!playerTurn);
+          result = [...box]
 
-       // setBox({ ...box, t: 'visited', index: index });
-        setplayerTurn(!playerTurn);
-        result = [ ...box]
+
+
+        }
       }
-      else{
-        x[index].style.borderTop = "thick solid #0000FF";
-        result[index].t="visited";
-        result[index].index=index;
-        setBox(result);
-        setplayerTurn(!playerTurn);
-        result = [ ...box]
-
-
-
-      }
-    }
       else {
         alert("already visited please choose another line")
         setplayerTurn(playerTurn);
       }
     }
+
     else if (e.nativeEvent.offsetX > 50) {
       console.log('right')
       console.log(e.nativeEvent.offsetX)
       let x = document.getElementsByClassName("data");
-      x[index].style.borderRight = "thick solid #0000FF"
+      let adjacentLeft;
+      adjacentLeft = index + 1;
+      //x[index].style.borderRight = "thick solid #0000FF"
+
       if (box[index].r != "visited") {
-        result[index].r="visited";
-        result[index].index=index;
-        setBox(result);
-      //  setBox({ ...box, r: 'visited', index: index });
-        setplayerTurn(!playerTurn);
-        result = [ ...box]
+        if (adjacentLeft < 2 || adjacentLeft < 5 || adjacentLeft <= 9) {
+
+          if (index == 2 || index == 5 || index == 8) {
+            x[index].style.borderRight = "thick solid #0000FF";
+            result[index].r = "visited";
+            result[index].index = index;
+            setBox(result);
+            setplayerTurn(!playerTurn);
+            result = [...box]
+
+          }
+          else {
+
+            x[index].style.borderRight = "thick solid #0000FF";
+            x[adjacentLeft].style.borderLeft = "thick solid #0000FF";
+
+            result[index].r = "visited";
+            result[index].index = index;
+            result[adjacentLeft].l = "visited";
+            result[adjacentLeft].index = adjacentLeft;
+            setBox(result);
+            setplayerTurn(!playerTurn);
+            result = [...box]
+          }
+        }
+
       }
       else {
         alert("already visited please choose another line")
         setplayerTurn(playerTurn);
       }
-
-    } else if (e.nativeEvent.offsetY > 50) {
-      //console.log('bottom')
-      //console.log(e.nativeEvent.offsetY)
+    }
+    else if (e.nativeEvent.offsetY > 50) {
+      
       let x = document.getElementsByClassName("data");
       x[index].style.borderBottom = "thick solid #0000FF"
       let adjacentTop;
-      adjacentTop=index+3;
+      adjacentTop = index + 3;
 
-      
-      if(box[index].b != "visited") {
-        if(adjacentTop<=8){
 
-        x[index].style.borderBottom = "thick solid #0000FF"
-        x[adjacentTop].style.borderTop="thick solid #0000FF"
+      if (box[index].b != "visited") {
+        if (adjacentTop <= 8) {
 
-        result[index].b="visited";
-        result[index].index=index;
-        result[adjacentTop].t="visited";
-        result[adjacentTop].index=adjacentTop;
-        setBox(result);
-        //setBox({ ...box, b: 'visited', index: index });
-        setplayerTurn(!playerTurn);
-        result = [...box]
+          x[index].style.borderBottom = "thick solid #0000FF"
+          x[adjacentTop].style.borderTop = "thick solid #0000FF"
+
+          result[index].b = "visited";
+          result[index].index = index;
+          result[adjacentTop].t = "visited";
+          result[adjacentTop].index = adjacentTop;
+          setBox(result);
+          setplayerTurn(!playerTurn);
+          result = [...box]
+        }
+        else {
+          x[index].style.borderBottom = "thick solid #0000FF";
+          result[index].b = "visited";
+          result[index].index = index;
+          setBox(result);
+          setplayerTurn(!playerTurn);
+          result = [...box];
+        }
       }
-      else{
-        x[index].style.borderBottom="thick solid #0000FF";
-        result[index].b="visited";
-        result[index].index=index;
-        setBox(result);
-        setplayerTurn(!playerTurn);
-        result=[...box];
-      }
-    }
       else {
         alert("already visited please choose another line")
         setplayerTurn(playerTurn);
@@ -249,11 +297,11 @@ const Test = (props) => {
 
   const displayTd = (index) => {
     return (
-      <Td value={square[index]} onClick={(e) => handleClick(e, index)} />
+      <Td value={square[index]} onClick={(e) => handleClick(e, index,square)} />
     );
   }
 
-
+  
 
   return (
     <>
@@ -291,4 +339,4 @@ const Test = (props) => {
 
 
 export default Test;
- // React.render(<App />, document.getElementById('app'));
+ 

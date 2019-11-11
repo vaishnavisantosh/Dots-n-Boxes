@@ -8,10 +8,17 @@
 }
 
 .table{
-    border-collapse: separate;
-  border-spacing: 1px;
+    border-collapse: collapse;
+  border-spacing:0px;
 }
 
 .leftBorder{
     border-left: black 1px solid;
 }
+
+/*
+different color
+winner
+useRef
+Code optimise - reuse ...
+instead of alert display message  
