@@ -1,10 +1,10 @@
 .data{
     height: 50px;
     width:50px;
-    border-left: red 5px solid;
-    border-right: red 5px solid;
-    border-top:red 5px solid;
-    border-bottom: red 5px solid;
+    border-left:rgb(216, 214, 214) 5px solid;
+    border-right:rgb(216, 214, 214) 5px solid;
+    border-top:rgb(216, 214, 214) 5px solid;
+    border-bottom:rgb(216, 214, 214) 5px solid;
 }
 
 .table{
@@ -12,13 +12,13 @@
   border-spacing:0px;
 }
 
-.leftBorder{
-    border-left: black 1px solid;
-}
+/* .leftBorder{
+    border-left:gr 1px solid;
+} */
 
 /*
 different color
 winner
 useRef
 Code optimise - reuse ...
-instead of alert display message  
+instead of alert display message  */

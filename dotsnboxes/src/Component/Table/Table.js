@@ -93,8 +93,6 @@ const Test = (props) => {
 
   const checkBoxCreated = (resultData, index) => {
     if (resultData[index].l === "visited" && resultData[index].r === "visited" && resultData[index].t === "visited" && resultData[index].b === "visited") {
-      // setBoxCreated(true);
-      //setBoxFill(false);
       let squares = [...square];
       squares[index] = player;
       setSquare(squares);
@@ -140,7 +138,8 @@ const Test = (props) => {
         if (adjacentRight > 0 || adjacentRight < 3 || adjacentRight < 6) {
 
           if (index == 0 || index == 3 || index == 6) {
-            x[index].style.borderLeft = "thick solid #0000FF";
+            
+           playerTurn? x[index].style.borderLeft = "thick solid #0000FF": x[index].style.borderLeft = "thick solid red";
             result[index].l = "visited";
             result[index].index = index;
             setBox(result);
@@ -150,8 +149,8 @@ const Test = (props) => {
           }
           else {
 
-            x[index].style.borderLeft = "thick solid #0000FF";
-            x[adjacentRight].style.borderRight = "thick solid #0000FF";
+          playerTurn?  x[index].style.borderLeft = "thick solid #0000FF":x[index].style.borderLeft = "thick solid red";;
+          playerTurn? x[adjacentRight].style.borderRight = "thick solid #0000FF":x[adjacentRight].style.borderRight = "thick solid red";
 
             result[index].l = "visited";
             result[index].index = index;
@@ -179,8 +178,8 @@ const Test = (props) => {
 
       if (box[index].t != "visited") {
         if (adjacentBottom >= 0) {
-          x[index].style.borderTop = "thick solid #0000FF";
-          x[adjacentBottom].style.borderBottom = "thick solid #0000FF";
+         playerTurn? x[index].style.borderTop = "thick solid #0000FF":x[index].style.borderTop = "thick solid red";
+         playerTurn? x[adjacentBottom].style.borderBottom = "thick solid #0000FF":x[adjacentBottom].style.borderBottom = "thick solid red";
 
           result[index].t = "visited";
           result[index].index = index;
@@ -191,7 +190,7 @@ const Test = (props) => {
           result = [...box]
         }
         else {
-          x[index].style.borderTop = "thick solid #0000FF";
+         playerTurn? x[index].style.borderTop = "thick solid #0000FF":x[index].style.borderTop = "thick solid red";;
           result[index].t = "visited";
           result[index].index = index;
           setBox(result);
@@ -220,7 +219,7 @@ const Test = (props) => {
         if (adjacentLeft < 2 || adjacentLeft < 5 || adjacentLeft <= 9) {
 
           if (index == 2 || index == 5 || index == 8) {
-            x[index].style.borderRight = "thick solid #0000FF";
+           playerTurn? x[index].style.borderRight = "thick solid #0000FF":x[index].style.borderRight = "thick solid red";
             result[index].r = "visited";
             result[index].index = index;
             setBox(result);
@@ -230,8 +229,8 @@ const Test = (props) => {
           }
           else {
 
-            x[index].style.borderRight = "thick solid #0000FF";
-            x[adjacentLeft].style.borderLeft = "thick solid #0000FF";
+            playerTurn? x[index].style.borderRight = "thick solid #0000FF":x[index].style.borderRight = "thick solid red";
+            playerTurn?x[adjacentLeft].style.borderLeft = "thick solid #0000FF":x[adjacentLeft].style.borderLeft = "thick solid red"
 
             result[index].r = "visited";
             result[index].index = index;
@@ -252,7 +251,7 @@ const Test = (props) => {
     else if (e.nativeEvent.offsetY > 50) {
       
       let x = document.getElementsByClassName("data");
-      x[index].style.borderBottom = "thick solid #0000FF"
+      playerTurn?x[index].style.borderBottom = "thick solid #0000FF":x[index].style.borderBottom = "thick solid red";
       let adjacentTop;
       adjacentTop = index + 3;
 
@@ -260,8 +259,8 @@ const Test = (props) => {
       if (box[index].b != "visited") {
         if (adjacentTop <= 8) {
 
-          x[index].style.borderBottom = "thick solid #0000FF"
-          x[adjacentTop].style.borderTop = "thick solid #0000FF"
+         playerTurn? x[index].style.borderBottom = "thick solid #0000FF":x[index].style.borderBottom = "thick solid red"
+         playerTurn? x[adjacentTop].style.borderTop = "thick solid #0000FF":x[adjacentTop].style.borderTop = "thick solid red"
 
           result[index].b = "visited";
           result[index].index = index;
@@ -272,7 +271,7 @@ const Test = (props) => {
           result = [...box]
         }
         else {
-          x[index].style.borderBottom = "thick solid #0000FF";
+         playerTurn? x[index].style.borderBottom = "thick solid #0000FF": x[index].style.borderBottom = "thick solid red";
           result[index].b = "visited";
           result[index].index = index;
           setBox(result);
