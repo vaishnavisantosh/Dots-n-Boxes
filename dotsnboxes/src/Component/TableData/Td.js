@@ -1,14 +1,15 @@
-import React from 'react';
+import React  from 'react';
 
-const Td=(props)=>{
+
+const Td=React.forwardRef((props, ref)=>{
 
     return(
-        <td className= "data" onClick={props.onClick}>
+        <td ref={ref} className= "data" onClick={props.onClick}>
             {props.value}
         </td>
     );
 
-}
+});
 
 
 export default Td;
