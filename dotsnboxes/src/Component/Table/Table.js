@@ -81,12 +81,17 @@ const Test = (props) => {
       player1Count=player1arr.length;
       player2Count=square.length-player1Count;
 
+    if(!(square.includes(null))){  
       if(player1Count>player2Count){
         return "player1";
       }
       else{
         return "player2";
       }
+    }
+    else{
+      return false;
+    }
       
       
   }
@@ -110,7 +115,7 @@ const Test = (props) => {
     
     if(!(square.includes(null))){
     winner=calculateWinner(square);
-  alert(`winner is ${winner}`);
+ // alert(`winner is ${winner}`);
     }
     else{
     resultData = clicked(e, index);
@@ -120,6 +125,8 @@ const Test = (props) => {
     }
 
   }
+
+  
 }
 
   const clicked = (e, index) => {
@@ -300,12 +307,26 @@ const Test = (props) => {
     );
   }
 
+  let msg;
+  let winner;
+  winner=calculateWinner(square);
+  if(winner==='player1' || winner==='player2'){
+    msg=`${winner} is winner`;
+  }
+  else{
+    msg=null;
+  }
+  
+
+
+
   
 
   return (
     <>
 
-      Its time of {player}
+       Its time of {player} 
+      
 
       <table className="table">
         <tbody>
@@ -331,6 +352,10 @@ const Test = (props) => {
 
         </tbody>
       </table>
+      <div className="msg">
+      {msg}
+      </div>
+     
     </>
   );
 }

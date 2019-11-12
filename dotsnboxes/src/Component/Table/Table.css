@@ -12,6 +12,10 @@
   border-spacing:0px;
 }
 
+.msg{
+    margin-top: 20px;
+    text-align: left;
+}
 /* .leftBorder{
     border-left:gr 1px solid;
 } */
