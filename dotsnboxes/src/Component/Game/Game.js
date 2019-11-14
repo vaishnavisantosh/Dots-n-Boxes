@@ -1,93 +1,44 @@
 import React, { useState, useRef } from 'react';
-import './Table.css'
+import './Game.css'
 import Td from '../TableData/Td';
 
-const Test = (props) => {
+const Game = (props) => {
   let msg = null;
-  let refs = useRef([React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef()]);
-  const [playerTurn, setplayerTurn] = useState(true);//handles next player turn
-  const [square, setSquare] = useState(Array(9).fill(null));//stores player information after creating box
-  const temp = 4;//for 4X4 game
-  const [box, setBox] = useState([
-    {
-      index: null,
-      l: '',
-      r: '',
-      t: '',
-      b: ''
-    },
-    {
-      index: null,
-      l: '',
-      r: '',
-      t: '',
-      b: ''
-    },
-    {
-      index: null,
-      l: '',
-      r: '',
-      t: '',
-      b: ''
-    },
-    {
-      index: null,
-      l: '',
-      r: '',
-      t: '',
-      b: ''
-    },
-    {
-      index: null,
-      l: '',
-      r: '',
-      t: '',
-      b: ''
-    },
-    {
-      index: null,
-      l: '',
-      r: '',
-      t: '',
-      b: ''
-    },
-    {
-      index: null,
-      l: '',
-      r: '',
-      t: '',
-      b: ''
-    },
-    {
-      index: null,
-      l: '',
-      r: '',
-      t: '',
-      b: ''
-    },
-    {
-      index: null,
-      l: '',
-      r: '',
-      t: '',
-      b: ''
-    }]
+  const temp = localStorage.getItem('grid');//for 4X4 6X6 8X8 game
+  const player1 = localStorage.getItem('player1')
+  const player2 = localStorage.getItem('player2')
 
-  )
-  let player = playerTurn ? 'Player1' : 'player2';
+  let arrayOfRef=new Array((temp-1)*(temp-1)).fill(React.createRef())
+
+  let refs = useRef(arrayOfRef);
+  const [playerTurn, setplayerTurn] = useState(true);//handles next player turn
+  const [square, setSquare] = useState(Array((temp-1)*(temp-1)).fill(null));//stores player information after creating box
+  
+  
+  let arrayForCreatingBoxState =  new Array((temp-1)*(temp-1)).fill({
+    index: null,
+    l: '',
+    r: '',
+    t: '',
+    b: ''
+  })
+
+  const [box, setBox] = useState(arrayForCreatingBoxState)
+  let player = playerTurn ? player1 : player2;
+  console.log(box);
 
   const calculateWinner = (square) => {
-    let player1arr, winner, player1Count, player2Count;
+    let player1arr, player1Count, player2Count;
     player1arr = square.filter(value => value == "player1");
     player1Count = player1arr.length;
     player2Count = square.length - player1Count;
 
     if (!(square.includes(null))) {
       if (player1Count > player2Count) {
-        return "player1";
+        return player1;
       }
       else {
-        return "player2";
+        return player2;
       }
     }
     else {
@@ -207,7 +158,6 @@ const Test = (props) => {
         else {
           playerTurn ? refs.current[index].current.style.borderTop = "thick solid #0000FF" : refs.current[index].current.style.borderTop = "thick solid red";
 
-
           result[index].t = "visited";
           result[index].index = index;
           setBox(result);
@@ -311,7 +261,7 @@ const Test = (props) => {
 
   // console.log("boxxxxxx",box);
 
-  const DisplayTd = ( index ) => {
+  const DisplayTd = (index) => {
     console.log(refs);
     return (
       <Td value={square[index]} ref={refs.current[index]} onClick={(e) => handleClick(e, index, square)} />
@@ -335,22 +285,25 @@ const Test = (props) => {
     msg = msg;
   }
 
+  
+
+   
 
 
 
 
-  return (
-    <>
+      return (
+        <>
 
-      Its time of {player}
+          Its time of {player}
 
-      {msg}
+          {msg}
 
 
-      <table className="table">
-        <tbody>
+          <table className="table">
+            <tbody>
 
-          <tr >
+              {/* <tr >
             {DisplayTd(0)}
             {DisplayTd(1)}
             {DisplayTd(2)}
@@ -367,18 +320,27 @@ const Test = (props) => {
             {DisplayTd(7)}
             {DisplayTd(8)}
 
-          </tr>
+          </tr> */}
+        
+          {new Array(temp-1).fill(1).map(()=>(
+                <tr>
+                 {new Array(temp-1).fill(1).map(()=><>{DisplayTd(1)}</>)
+                 }
+                 </tr>
+               ))
+          }
+                             
 
-        </tbody>
-      </table>
-      <div className="msg">
-        {message}
-      </div>
+            </tbody>
+          </table>
+          <div className="msg">
+            {message}
+          </div>
 
-    </>
-  );
-}
+        </>
+      );
+    }
 
 
 
-export default Test;
+    export default Game;
