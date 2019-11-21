@@ -1,45 +1,93 @@
 import React, { useState, useRef } from 'react';
-import './Game.css'
-import Td from '../TableData/Td';
+import './Table.css';
+import Td from './TableData/Td';
 
-const Game = (props) => {
+const Test = (props) => {
   let msg = null;
-  let i=-1;
-  const temp = localStorage.getItem('grid');//for 4X4 6X6 8X8 game
-  const player1 = localStorage.getItem('player1')
-  const player2 = localStorage.getItem('player2')
-
-  let arrayOfRef = new Array((temp - 1) * (temp - 1)).fill(React.createRef())
-
-  let refs = useRef(arrayOfRef);
+  let refs = useRef([React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef()]);
   const [playerTurn, setplayerTurn] = useState(true);//handles next player turn
-  const [square, setSquare] = useState(Array((temp - 1) * (temp - 1)).fill(null));//stores player information after creating box
+  const [square, setSquare] = useState(Array(9).fill(null));//stores player information after creating box
+  const temp = 4;//for 4X4 game
+  const [box, setBox] = useState([
+    {
+      index: null,
+      l: '',
+      r: '',
+      t: '',
+      b: ''
+    },
+    {
+      index: null,
+      l: '',
+      r: '',
+      t: '',
+      b: ''
+    },
+    {
+      index: null,
+      l: '',
+      r: '',
+      t: '',
+      b: ''
+    },
+    {
+      index: null,
+      l: '',
+      r: '',
+      t: '',
+      b: ''
+    },
+    {
+      index: null,
+      l: '',
+      r: '',
+      t: '',
+      b: ''
+    },
+    {
+      index: null,
+      l: '',
+      r: '',
+      t: '',
+      b: ''
+    },
+    {
+      index: null,
+      l: '',
+      r: '',
+      t: '',
+      b: ''
+    },
+    {
+      index: null,
+      l: '',
+      r: '',
+      t: '',
+      b: ''
+    },
+    {
+      index: null,
+      l: '',
+      r: '',
+      t: '',
+      b: ''
+    }]
 
-
-  let arrayForCreatingBoxState = new Array((temp - 1) * (temp - 1)).fill({
-    index: null,
-    l: '',
-    r: '',
-    t: '',
-    b: ''
-  })
-
-  const [box, setBox] = useState(arrayForCreatingBoxState)
-  let player = playerTurn ? player1 : player2;
-  console.log(box);
+  )
+  let player = playerTurn ? 'Player1' : 'player2';
 
   const calculateWinner = (square) => {
-    let player1arr, player1Count, player2Count;
+    let player1arr, winner, player1Count, player2Count;
     player1arr = square.filter(value => value == "player1");
     player1Count = player1arr.length;
     player2Count = square.length - player1Count;
 
     if (!(square.includes(null))) {
       if (player1Count > player2Count) {
-        return player1;
+        return "player1";
       }
       else {
-        return player2;
+        return "player2";
       }
     }
     else {
@@ -106,15 +154,14 @@ const Game = (props) => {
       let adjacentRight;
       adjacentRight = index - 1;
 
-      if (box[index].l != "visited") {
+      if (box[index][l] != "visited") {
         if (adjacentRight > 0 || adjacentRight < 3 || adjacentRight < 6) {
 
           if (index == 0 || index == 3 || index == 6) {
 
             playerTurn ? refs.current[index].current.style.borderLeft = "thick solid #0000FF" : refs.current[index].current.style.borderLeft = "thick solid red";
-            result[index].l = "visited";
-            console.log("indexxxxxxxx",result[index]);
-            result[index].index = index;
+            result[index][l] = "visited";
+            result[index][index] = index;
             setBox(result);
             setplayerTurn(!playerTurn);
             result = [...box]
@@ -144,7 +191,7 @@ const Game = (props) => {
       console.log('top')
       let x = document.getElementsByClassName("data");
       let adjacentBottom;
-      adjacentBottom = index - (temp-1);
+      adjacentBottom = index - 3;
 
 
       if (box[index].t != "visited") {
@@ -160,8 +207,9 @@ const Game = (props) => {
         else {
           playerTurn ? refs.current[index].current.style.borderTop = "thick solid #0000FF" : refs.current[index].current.style.borderTop = "thick solid red";
 
-          result[index].t = "visited";
-          result[index].index = index;
+
+          result[index][t] = "visited";
+          result[index][index] = index;
           setBox(result);
           setplayerTurn(!playerTurn);
           result = [...box]
@@ -191,8 +239,8 @@ const Game = (props) => {
 
           if (index == 2 || index == 5 || index == 8) {
             playerTurn ? refs.current[index].current.style.borderRight = "thick solid #0000FF" : refs.current[index].current.style.borderRight = "thick solid red";
-            result[index].r = "visited";
-            result[index].index = index;
+            result[index][r] = "visited";
+            result[index][index] = index;
             setBox(result);
             setplayerTurn(!playerTurn);
             result = [...box]
@@ -223,11 +271,11 @@ const Game = (props) => {
       let x = document.getElementsByClassName("data");
       playerTurn ? refs.current[index].current.style.borderBottom = "thick solid #0000FF" : refs.current[index].current.style.borderBottom = "thick solid red";
       let adjacentTop;
-      adjacentTop = index + (temp-1);
+      adjacentTop = index + 3;
 
 
       if (box[index].b != "visited") {
-        if (adjacentTop <((temp-1)*(temp-1))) {
+        if (adjacentTop <= 8) {
 
           playerTurn ? refs.current[index].current.style.borderBottom = "thick solid #0000FF" : refs.current[index].current.style.borderBottom = "thick solid red"
           playerTurn ? refs.current[adjacentTop].current.style.borderTop = "thick solid #0000FF" : refs.current[adjacentTop].current.style.borderTop = "thick solid red"
@@ -239,8 +287,8 @@ const Game = (props) => {
         }
         else {
           playerTurn ? refs.current[index].current.style.borderBottom = "thick solid #0000FF" : refs.current[index].current.style.borderBottom = "thick solid red";
-          result[index].b = "visited";
-          result[index].index = index;
+          result[index][b] = "visited";
+          result[index][index] = index;
           setBox(result);
           setplayerTurn(!playerTurn);
           result = [...box];
@@ -263,10 +311,10 @@ const Game = (props) => {
 
   // console.log("boxxxxxx",box);
 
-  const DisplayTd = (index) => {
+  const DisplayTd = ( index ) => {
     console.log(refs);
     return (
-      <Td value={square[index]} ref={refs.current[index]} onClick={(e) => handleClick(e, index, square)} index={index} />
+      <Td value={square[index]} ref={refs.current[index]} onClick={(e) => handleClick(e, index, square)} />
     );
   }
 
@@ -287,12 +335,6 @@ const Game = (props) => {
     msg = msg;
   }
 
-const getIndex=()=>{
-  i=i+1;
-  return i;
-}
-
-
 
 
 
@@ -305,11 +347,10 @@ const getIndex=()=>{
       {msg}
 
 
-
       <table className="table">
         <tbody>
 
-          {/* <tr >
+          <tr >
             {DisplayTd(0)}
             {DisplayTd(1)}
             {DisplayTd(2)}
@@ -326,16 +367,7 @@ const getIndex=()=>{
             {DisplayTd(7)}
             {DisplayTd(8)}
 
-          </tr> */}
-
-          {new Array(temp - 1).fill(1).map(() => (
-            <tr>
-              {new Array(temp - 1).fill(1).map(() => <>{DisplayTd(getIndex())}</>)
-              }
-            </tr>
-          ))
-          }
-
+          </tr>
 
         </tbody>
       </table>
@@ -349,4 +381,4 @@ const getIndex=()=>{
 
 
 
-export default Game;
+export default Test;

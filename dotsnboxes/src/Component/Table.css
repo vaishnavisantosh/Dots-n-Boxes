@@ -1,0 +1,18 @@
+.data{
+    height: 50px;
+    width:50px;
+    border-left:rgb(216, 214, 214) 5px solid;
+    border-right:rgb(216, 214, 214) 5px solid;
+    border-top:rgb(216, 214, 214) 5px solid;
+    border-bottom:rgb(216, 214, 214) 5px solid;
+}
+
+.table{
+    border-collapse: collapse;
+  border-spacing:0px;
+}
+
+.msg{
+    margin-top: 20px;
+    text-align: left;
+}
